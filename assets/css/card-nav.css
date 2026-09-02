@@ -1,0 +1,355 @@
+.card-nav-container {
+  position: fixed;
+  top: var(--card-nav-top, 38px);
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 100%;
+  z-index: 120;
+  box-sizing: border-box;
+}
+
+.card-nav {
+  display: block;
+  height: 60px;
+  padding: 0;
+  background-color: #fff;
+  border: 0.5px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+  overflow: hidden;
+  will-change: height;
+  font-family: "Montserrat", sans-serif;
+}
+
+.card-nav-top {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 0.45rem 0.55rem 1.1rem;
+  z-index: 2;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.hamburger-menu {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  gap: 6px;
+  color: #1c1c1b;
+  background: none;
+  border: 0;
+  padding: 0 8px;
+}
+
+.hamburger-menu:hover .hamburger-line {
+  opacity: 0.75;
+}
+
+.hamburger-line {
+  width: 30px;
+  height: 2px;
+  background-color: currentColor;
+  transition: transform 0.25s ease, opacity 0.2s ease, margin 0.3s ease;
+  transform-origin: 50% 50%;
+}
+
+.hamburger-menu.open .hamburger-line:first-child {
+  transform: translateY(4px) rotate(45deg);
+}
+
+.hamburger-menu.open .hamburger-line:last-child {
+  transform: translateY(-4px) rotate(-45deg);
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.logo-container .logo {
+  height: 28px;
+  width: auto;
+}
+
+.card-nav-cta-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #db0812;
+  color: #fff;
+  border: none;
+  border-radius: calc(0.75rem - 0.35rem);
+  padding: 0 1.1rem;
+  height: 100%;
+  font-family: "Cabinet Grotesk", "Montserrat", sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  text-decoration: none;
+}
+
+.card-nav-cta-button:hover {
+  background-color: #b50710;
+}
+
+.card-nav-content {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 60px;
+  bottom: 0;
+  padding: 0.5rem;
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+  visibility: hidden;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.card-nav.open .card-nav-content {
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.nav-card {
+  height: 100%;
+  flex: 1 1 0;
+  min-width: 0;
+  border-radius: calc(0.75rem - 0.2rem);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 12px 16px 18px;
+  gap: 8px;
+  user-select: none;
+  overflow: hidden;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.nav-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.nav-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+.card-nav-content > .nav-card:nth-child(1) {
+  background-image: url("../../Nav BG/lamborghini-nav-bg 1.jpg");
+}
+
+.card-nav-content > .nav-card:nth-child(1)::before {
+  background-color: rgba(28, 28, 27, 0.90);
+}
+
+.card-nav-content > .nav-card:nth-child(2) {
+  background-image: url("../../Nav BG/Ferrari-Nav-Bg 1.jpg");
+}
+
+html[dir="rtl"] .card-nav-content > .nav-card:nth-child(2) {
+  background-image: url("../../Nav BG/Ferrari-Nav-Bg-ar.jpg");
+}
+
+.card-nav-content > .nav-card:nth-child(2)::before {
+  background-color: rgba(219, 8, 18, 0.8);
+}
+
+.card-nav-content > .nav-card:nth-child(3) {
+  background-image: url("../../Nav BG/Rolls-Royce-Nav-Bg 1.jpg");
+}
+
+.card-nav-content > .nav-card:nth-child(3)::before {
+  background-color: rgba(74, 74, 73, 0.95);
+}
+
+.nav-card-label {
+  font-weight: 500;
+  font-size: 22px;
+  letter-spacing: -0.5px;
+}
+
+.nav-card-links {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.nav-card-link {
+  font-size: 15px;
+  color: inherit;
+  cursor: pointer;
+  text-decoration: none;
+  transition: opacity 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.nav-card-link:hover {
+  opacity: 0.75;
+}
+
+.nav-card-link-icon {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+
+@media (max-width: 768px) {
+  .card-nav-container {
+    width: 92%;
+    top: calc(var(--card-nav-top, 38px) + 0.9em);
+  }
+
+  .card-nav-top {
+    padding: 0.5rem 1rem;
+    justify-content: space-between;
+  }
+
+  .hamburger-menu {
+    order: 2;
+  }
+
+  .logo-container {
+    position: static;
+    transform: none;
+    order: 1;
+  }
+
+  .card-nav-cta-button {
+    display: none;
+  }
+
+  .card-nav-content {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+    padding: 0.5rem;
+    justify-content: flex-start;
+  }
+
+  .nav-card {
+    height: auto;
+    min-height: 60px;
+    flex: 1 1 auto;
+    max-height: none;
+  }
+
+  .nav-card-label {
+    font-size: 18px;
+  }
+
+  .nav-card-link {
+    font-size: 15px;
+  }
+
+  .nav-card--contact .nav-card-hit {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    gap: 6px;
+    color: inherit;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .nav-card--contact .nav-card-hit:hover {
+    opacity: 0.75;
+  }
+
+  .nav-card--contact .nav-card-hit::after {
+    content: "↗";
+    font-size: 14px;
+    line-height: 1;
+  }
+}
+
+@media (max-width: 768px) {
+  .card-nav {
+    border-radius: 0.75em;
+  }
+}
+
+body[data-nav="react"] {
+  --header-h: 38px;
+}
+
+body[data-nav="react"] .site-header {
+  position: relative;
+}
+
+body[data-nav="react"] .nav-default {
+  display: none;
+}
+
+body[data-nav="react"] .hero__content {
+  padding-block: 120px 96px;
+}
+
+@media (max-width: 1100px) {
+  body[data-nav="react"] .hero__content {
+    padding-block: 150px 56px;
+  }
+}
+
+body[data-nav="default"] .nav-react {
+  display: none;
+}
+
+html[dir="rtl"] .card-nav,
+html[dir="rtl"] .card-nav-cta-button {
+  font-family: "Tajawal", "Montserrat", sans-serif;
+}
+
+html[dir="rtl"] .card-nav-cta-button,
+html[dir="rtl"] .nav-card-label {
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+html[dir="rtl"] .card-nav-cta-button {
+  font-weight: 700;
+}
+
+@media (min-width: 769px) {
+  .nav-card--contact .nav-card-hit {
+    pointer-events: none;
+    color: inherit;
+    text-decoration: none;
+    cursor: default;
+  }
+
+  .nav-card--contact .nav-card-hit::after {
+    content: none;
+  }
+}
+
+html[dir="rtl"] .nav-card--contact .nav-card-hit::after {
+  transform: scaleX(-1);
+}

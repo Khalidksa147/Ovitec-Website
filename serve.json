@@ -1,0 +1,162 @@
+{
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "rewrites": [
+    {
+      "source": "/ar",
+      "destination": "/index-ar.html"
+    },
+    {
+      "source": "/ar/about",
+      "destination": "/about-ar.html"
+    },
+    {
+      "source": "/ar/contact",
+      "destination": "/contact-ar.html"
+    },
+    {
+      "source": "/ar/bentley",
+      "destination": "/bentley-ar.html"
+    },
+    {
+      "source": "/ar/rolls-royce",
+      "destination": "/rolls-royce-ar.html"
+    },
+    {
+      "source": "/ar/aston-martin",
+      "destination": "/aston-martin-ar.html"
+    },
+    {
+      "source": "/ar/ferrari",
+      "destination": "/ferrari-ar.html"
+    },
+    {
+      "source": "/ar/lamborghini",
+      "destination": "/lamborghini-ar.html"
+    },
+    {
+      "source": "/ar/maserati",
+      "destination": "/maserati-ar.html"
+    },
+    {
+      "source": "/ar/aftermarket",
+      "destination": "/aftermarket-ar.html"
+    },
+    {
+      "source": "/ar/404",
+      "destination": "/404-ar.html"
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/index-ar",
+      "destination": "/ar",
+      "type": 301
+    },
+    {
+      "source": "/index-ar.html",
+      "destination": "/ar",
+      "type": 301
+    },
+    {
+      "source": "/about-ar",
+      "destination": "/ar/about",
+      "type": 301
+    },
+    {
+      "source": "/about-ar.html",
+      "destination": "/ar/about",
+      "type": 301
+    },
+    {
+      "source": "/contact-ar",
+      "destination": "/ar/contact",
+      "type": 301
+    },
+    {
+      "source": "/contact-ar.html",
+      "destination": "/ar/contact",
+      "type": 301
+    },
+    {
+      "source": "/bentley-ar",
+      "destination": "/ar/bentley",
+      "type": 301
+    },
+    {
+      "source": "/bentley-ar.html",
+      "destination": "/ar/bentley",
+      "type": 301
+    },
+    {
+      "source": "/rolls-royce-ar",
+      "destination": "/ar/rolls-royce",
+      "type": 301
+    },
+    {
+      "source": "/rolls-royce-ar.html",
+      "destination": "/ar/rolls-royce",
+      "type": 301
+    },
+    {
+      "source": "/aston-martin-ar",
+      "destination": "/ar/aston-martin",
+      "type": 301
+    },
+    {
+      "source": "/aston-martin-ar.html",
+      "destination": "/ar/aston-martin",
+      "type": 301
+    },
+    {
+      "source": "/ferrari-ar",
+      "destination": "/ar/ferrari",
+      "type": 301
+    },
+    {
+      "source": "/ferrari-ar.html",
+      "destination": "/ar/ferrari",
+      "type": 301
+    },
+    {
+      "source": "/lamborghini-ar",
+      "destination": "/ar/lamborghini",
+      "type": 301
+    },
+    {
+      "source": "/lamborghini-ar.html",
+      "destination": "/ar/lamborghini",
+      "type": 301
+    },
+    {
+      "source": "/maserati-ar",
+      "destination": "/ar/maserati",
+      "type": 301
+    },
+    {
+      "source": "/maserati-ar.html",
+      "destination": "/ar/maserati",
+      "type": 301
+    },
+    {
+      "source": "/aftermarket-ar",
+      "destination": "/ar/aftermarket",
+      "type": 301
+    },
+    {
+      "source": "/aftermarket-ar.html",
+      "destination": "/ar/aftermarket",
+      "type": 301
+    },
+    {
+      "source": "/404-ar",
+      "destination": "/ar/404",
+      "type": 301
+    },
+    {
+      "source": "/404-ar.html",
+      "destination": "/ar/404",
+      "type": 301
+    }
+  ]
+}
