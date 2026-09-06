@@ -34,11 +34,12 @@ ErrorDocument 404 /404.html
   RewriteRule ^lamborghini-ar/?$ /ar/lamborghini [L,R=301,QSA]
   RewriteRule ^maserati-ar/?$ /ar/maserati [L,R=301,QSA]
   RewriteRule ^aftermarket-ar/?$ /ar/aftermarket [L,R=301,QSA]
+  RewriteRule ^products-ar/?$ /ar/products [L,R=301,QSA]
   RewriteRule ^404-ar/?$ /ar/404 [L,R=301,QSA]
 
   # Old Arabic .html files → /ar/...
   RewriteRule ^index-ar\.html$ /ar [L,R=301,QSA]
-  RewriteRule ^(about|contact|bentley|rolls-royce|aston-martin|ferrari|lamborghini|maserati|aftermarket|404)-ar\.html$ /ar/$1 [L,R=301,QSA]
+  RewriteRule ^(about|contact|bentley|rolls-royce|aston-martin|ferrari|lamborghini|maserati|aftermarket|products|404)-ar\.html$ /ar/$1 [L,R=301,QSA]
 
   # Redirect remaining English *.html to clean URLs
   RewriteCond %{THE_REQUEST} \s/+(.+?)\.html[\s?] [NC]
@@ -48,7 +49,7 @@ ErrorDocument 404 /404.html
   RewriteRule ^ar/?$ index-ar.html [L]
 
   # Serve Arabic nested pages: /ar/contact → contact-ar.html
-  RewriteRule ^ar/(about|contact|bentley|rolls-royce|aston-martin|ferrari|lamborghini|maserati|aftermarket|404)/?$ $1-ar.html [L]
+  RewriteRule ^ar/(about|contact|bentley|rolls-royce|aston-martin|ferrari|lamborghini|maserati|aftermarket|products|404)/?$ $1-ar.html [L]
 
   # Existing files/dirs
   RewriteCond %{REQUEST_FILENAME} -f [OR]

@@ -1,0 +1,5 @@
+Require all denied
+
+<Files "products.json">
+  Require all granted
+</Files>

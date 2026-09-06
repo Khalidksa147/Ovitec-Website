@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin | Ovitec Products</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" href="/Brand Logos/Ovitec Logo.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://api.fontshare.com">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@400,500,600,700,800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/style.css?v=36">
+</head>
+<body class="admin-page">
+  <div class="admin-shell">
+    <section class="admin-login" id="admin-login">
+      <div class="admin-card admin-login__card">
+        <a class="admin-login__brand" href="/" aria-label="Ovitec Luxury Car Parts home">
+          <img src="/Brand Logos/Ovitec Logo.svg" alt="Ovitec Luxury Car Parts" width="168" height="43" decoding="async">
+        </a>
+        <p class="admin-login__kicker">Catalogue admin</p>
+        <h1>Sign in</h1>
+        <p class="admin-login__lead">Enter your password to manage aftermarket and tuning products.</p>
+        <form class="admin-form" id="login-form">
+          <label>
+            Password
+            <input id="login-password" type="password" name="password" autocomplete="current-password" required placeholder="Enter admin password">
+          </label>
+          <p class="admin-error" id="login-error" hidden></p>
+          <button class="btn btn--red btn--block" type="submit"><span>Sign in</span></button>
+        </form>
+      </div>
+    </section>
+
+    <section class="admin-hidden" id="admin-app">
+      <div class="admin-header">
+        <div class="admin-header__brand">
+          <a href="/" aria-label="Ovitec Luxury Car Parts home">
+            <img src="/Brand Logos/Ovitec Logo.svg" alt="Ovitec Luxury Car Parts" width="140" height="36" decoding="async">
+          </a>
+          <div>
+            <h1>Product Manager</h1>
+            <p>Manage catalogue items shown on the products page.</p>
+          </div>
+        </div>
+        <div class="admin-actions">
+          <a class="btn btn--ghost" href="/products"><span>View products</span></a>
+          <button class="btn btn--ghost" type="button" id="logout-btn"><span>Log out</span></button>
+        </div>
+      </div>
+
+      <div class="admin-card" style="margin-bottom:18px;">
+        <div class="admin-toolbar">
+          <strong>All products</strong>
+          <span id="product-count" style="color:var(--gray);font-size:13px;"></span>
+        </div>
+        <div class="admin-table-wrap">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Image</th>
+                <th>Title</th>
+                <th>Category</th>
+                <th>Vehicle</th>
+                <th>Price</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="products-tbody"></tbody>
+          </table>
+        </div>
+        <p class="products-empty" id="admin-empty" hidden>No products yet. Add your first product below.</p>
+      </div>
+
+      <div class="admin-card">
+        <div class="admin-toolbar">
+          <strong id="form-title">Add product</strong>
+          <button class="btn btn--ghost" type="button" id="reset-form-btn"><span>New product</span></button>
+        </div>
+        <form class="admin-form" id="product-form">
+          <input type="hidden" id="product-id" name="id" value="">
+          <div class="admin-form__row">
+            <label>
+              Category
+              <select id="product-category" name="category" required>
+                <option value="aftermarket">Aftermarket Parts</option>
+                <option value="tuning">Tuning Parts</option>
+              </select>
+            </label>
+            <label>
+              Price (SAR)
+              <input id="product-price" name="price" type="number" min="0" step="0.01" required>
+            </label>
+          </div>
+          <label>
+            Title
+            <input id="product-title" name="title" type="text" required maxlength="160">
+          </label>
+          <label>
+            Description
+            <textarea id="product-description" name="description" required maxlength="1200"></textarea>
+          </label>
+          <div class="admin-form__row">
+            <label>
+              Car brand
+              <select id="product-brand" name="brand" required></select>
+            </label>
+            <label>
+              Car model
+              <select id="product-model" name="model" required disabled></select>
+            </label>
+          </div>
+          <label>
+            Image URL
+            <input id="product-image" name="image" type="text" required placeholder="/uploads/products/example.jpg">
+          </label>
+          <label>
+            Or upload image
+            <input id="product-image-file" type="file" accept="image/jpeg,image/png,image/webp,image/gif">
+          </label>
+          <img class="admin-preview" id="product-preview" alt="Product preview">
+          <p class="admin-error" id="form-error" hidden></p>
+          <div class="admin-actions">
+            <button class="btn btn--red" type="submit" id="save-btn"><span>Save product</span></button>
+            <button class="btn btn--ghost admin-hidden" type="button" id="cancel-edit-btn"><span>Cancel edit</span></button>
+          </div>
+        </form>
+      </div>
+    </section>
+  </div>
+
+  <script src="/assets/js/vehicle-data.js?v=1"></script>
+  <script src="/assets/js/admin.js?v=2"></script>
+</body>
+</html>
