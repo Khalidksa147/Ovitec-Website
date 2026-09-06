@@ -15,6 +15,9 @@ ErrorDocument 404 /404.html
   RewriteCond %{HTTP_HOST} !^127\.0\.0\.1 [NC]
   RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
+  # Old /api/* paths → /backend/* (Hostinger often blocks /api/)
+  RewriteRule ^api/(.*)$ backend/$1 [L,QSA]
+
   # www canonical
   RewriteCond %{HTTP_HOST} ^oviteccarparts\.com$ [NC]
   RewriteRule ^ https://www.oviteccarparts.com%{REQUEST_URI} [L,R=301]

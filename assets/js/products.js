@@ -158,7 +158,7 @@
     try {
       let products = [];
       try {
-        const res = await fetch(`/api/products.php${qs ? `?${qs}` : ""}`, { credentials: "same-origin" });
+        const res = await fetch(`/backend/products.php${qs ? `?${qs}` : ""}`, { credentials: "same-origin" });
         if (!res.ok) throw new Error("api");
         const data = await res.json();
         products = Array.isArray(data.products) ? data.products : [];

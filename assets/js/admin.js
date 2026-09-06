@@ -137,7 +137,7 @@
   };
 
   const loadProducts = async () => {
-    const data = await api("/api/products.php");
+    const data = await api("/backend/products.php");
     products = Array.isArray(data.products) ? data.products : [];
     renderTable();
   };
@@ -163,7 +163,7 @@
     event.preventDefault();
     loginError.hidden = true;
     try {
-      await api("/api/auth.php?action=login", {
+      await api("/backend/auth.php?action=login", {
         method: "POST",
         body: JSON.stringify({ password: loginPassword.value })
       });
@@ -179,7 +179,7 @@
 
   logoutBtn.addEventListener("click", async () => {
     try {
-      await api("/api/auth.php?action=logout", { method: "POST", body: "{}" });
+      await api("/backend/auth.php?action=logout", { method: "POST", body: "{}" });
     } catch {
       /* ignore */
     }
@@ -196,7 +196,7 @@
     const body = new FormData();
     body.append("image", file);
     try {
-      const data = await api("/api/upload.php", { method: "POST", body });
+      const data = await api("/backend/upload.php", { method: "POST", body });
       productImage.value = data.url || "";
       updatePreview();
     } catch (err) {
@@ -224,9 +224,9 @@
     };
     try {
       if (payload.id) {
-        await api("/api/products.php", { method: "PUT", body: JSON.stringify(payload) });
+        await api("/backend/products.php", { method: "PUT", body: JSON.stringify(payload) });
       } else {
-        await api("/api/products.php", { method: "POST", body: JSON.stringify(payload) });
+        await api("/backend/products.php", { method: "POST", body: JSON.stringify(payload) });
       }
       resetForm();
       await loadProducts();
@@ -245,7 +245,7 @@
     if (!deleteId) return;
     if (!window.confirm("Delete this product?")) return;
     try {
-      await api("/api/products.php", {
+      await api("/backend/products.php", {
         method: "DELETE",
         body: JSON.stringify({ id: deleteId })
       });
@@ -259,7 +259,7 @@
   (async () => {
     fillBrandSelect();
     try {
-      const me = await api("/api/auth.php?action=me");
+      const me = await api("/backend/auth.php?action=me");
       if (me.authenticated) {
         setAuthed(true);
         await loadProducts();
@@ -269,7 +269,7 @@
     } catch {
       setAuthed(false);
       loginError.hidden = false;
-      loginError.textContent = "PHP API unavailable. Run php -S localhost:8080 from the project root, or open /admin on Hostinger.";
+      loginError.textContent = "Backend API unavailable. Confirm /backend/auth.php is deployed on Hostinger and returns JSON.";
     }
   })();
 })();

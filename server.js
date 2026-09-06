@@ -2,7 +2,7 @@
  * Local admin/dev server (Node) — mirrors Hostinger PHP APIs.
  * Usage: node server.js
  * Open: http://localhost:8080/admin
- * Password: OvitecAdmin2026 (same as api/config.php)
+ * Password: OvitecAdmin2026 (same as backend/config.php)
  */
 const http = require("http");
 const fs = require("fs");
@@ -357,9 +357,9 @@ const server = http.createServer(async (req, res) => {
     const url = new URL(req.url || "/", `http://${req.headers.host || "localhost"}`);
     const pathname = url.pathname;
 
-    if (pathname === "/api/auth.php") return handleAuth(req, res, url);
-    if (pathname === "/api/products.php") return handleProducts(req, res, url);
-    if (pathname === "/api/upload.php") return handleUpload(req, res);
+    if (pathname === "/backend/auth.php") return handleAuth(req, res, url);
+    if (pathname === "/backend/products.php") return handleProducts(req, res, url);
+    if (pathname === "/backend/upload.php") return handleUpload(req, res);
 
     // Don't execute PHP files; fall through to static 404 or source if present
     serveStatic(req, res, pathname);

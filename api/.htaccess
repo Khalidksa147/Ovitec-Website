@@ -1,9 +1,0 @@
-# Deny direct access to this API folder listing; scripts still run.
-Options -Indexes
-
-# Ensure PHP handlers run even if a parent rule interferes (Hostinger).
-<IfModule mod_rewrite.c>
-  RewriteEngine On
-  RewriteCond %{REQUEST_FILENAME} -f
-  RewriteRule ^ - [L]
-</IfModule>
