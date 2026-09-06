@@ -40,11 +40,7 @@ if ($method === 'POST' && $action === 'login') {
     $given = (string) $_POST['password'];
   }
   if ($given === '' || !hash_equals($password, $given)) {
-    ovitec_out([
-      'error' => 'Invalid password',
-      'debug_got_len' => strlen($given),
-      'debug_raw_len' => is_string($raw) ? strlen($raw) : 0,
-    ], 401);
+    ovitec_out(['error' => 'Invalid password'], 401);
   }
   $_SESSION['ovitec_admin'] = true;
   ovitec_out(['ok' => true, 'authenticated' => true]);

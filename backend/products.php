@@ -1,7 +1,6 @@
 <?php
-declare(strict_types=1);
 
-require __DIR__ . '/config.php';
+require __DIR__ . '/bootstrap.php';
 
 $method = $_SERVER['REQUEST_METHOD'] ?? 'GET';
 $vehicle = ovitec_vehicle_data();
