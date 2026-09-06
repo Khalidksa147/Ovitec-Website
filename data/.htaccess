@@ -1,5 +1,7 @@
+# Block direct web access to live product data and PHP sessions.
 Require all denied
 
-<Files "products.json">
+# Demo seed only — used as a static fallback when the API is unavailable.
+<Files "products.example.json">
   Require all granted
 </Files>
