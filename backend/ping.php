@@ -13,7 +13,7 @@ $out = [
   'session_ext' => extension_loaded('session'),
   'dir' => __DIR__,
   'config_exists' => is_file(__DIR__ . '/config.php'),
-  'auth_exists' => is_file(__DIR__ . '/auth.php'),
+  'session_php_exists' => is_file(__DIR__ . '/session.php'),
 ];
 
 try {
@@ -25,6 +25,16 @@ try {
 } catch (Throwable $e) {
   $out['session'] = 'fail';
   $out['session_error'] = $e->getMessage();
+}
+
+try {
+  require __DIR__ . '/config.php';
+  $out['config_load'] = 'ok';
+  $out['authenticated'] = ovitec_is_admin();
+} catch (Throwable $e) {
+  $out['config_load'] = 'fail';
+  $out['config_error'] = $e->getMessage();
+  $out['config_line'] = $e->getLine();
 }
 
 echo json_encode($out, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);

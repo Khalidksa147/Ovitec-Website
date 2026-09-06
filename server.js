@@ -357,7 +357,7 @@ const server = http.createServer(async (req, res) => {
     const url = new URL(req.url || "/", `http://${req.headers.host || "localhost"}`);
     const pathname = url.pathname;
 
-    if (pathname === "/backend/auth.php") return handleAuth(req, res, url);
+    if (pathname === "/backend/session.php" || pathname === "/backend/auth.php") return handleAuth(req, res, url);
     if (pathname === "/backend/products.php") return handleProducts(req, res, url);
     if (pathname === "/backend/upload.php") return handleUpload(req, res);
 

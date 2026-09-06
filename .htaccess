@@ -18,6 +18,9 @@ ErrorDocument 404 /404.html
   # Old /api/* paths → /backend/* (Hostinger often blocks /api/)
   RewriteRule ^api/(.*)$ backend/$1 [L,QSA]
 
+  # auth.php → session.php (Hostinger/ModSecurity often kills auth.php)
+  RewriteRule ^backend/auth\.php$ backend/session.php [L,QSA]
+
   # www canonical
   RewriteCond %{HTTP_HOST} ^oviteccarparts\.com$ [NC]
   RewriteRule ^ https://www.oviteccarparts.com%{REQUEST_URI} [L,R=301]

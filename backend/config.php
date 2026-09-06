@@ -53,27 +53,8 @@ function ovitec_bootstrap_session(): void {
     return;
   }
 
-  $dir = OVITEC_ROOT . '/data/sessions';
-  if (!is_dir($dir)) {
-    @mkdir($dir, 0755, true);
-  }
-  if (is_dir($dir) && is_writable($dir)) {
-    session_save_path($dir);
-  }
-
-  $https = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
-    || (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && strtolower((string) $_SERVER['HTTP_X_FORWARDED_PROTO']) === 'https');
-
-  session_name('OVITECADMIN');
-  session_set_cookie_params([
-    'lifetime' => 0,
-    'path' => '/',
-    'secure' => $https,
-    'httponly' => true,
-    'samesite' => 'Lax',
-  ]);
-
-  if (!session_start()) {
+  // Keep sessions on Hostinger's default path (custom save_path caused empty 500s).
+  if (!@session_start()) {
     throw new RuntimeException('session_start() returned false');
   }
 }

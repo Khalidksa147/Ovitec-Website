@@ -163,7 +163,7 @@
     event.preventDefault();
     loginError.hidden = true;
     try {
-      await api("/backend/auth.php?action=login", {
+      await api("/backend/session.php?action=login", {
         method: "POST",
         body: JSON.stringify({ password: loginPassword.value })
       });
@@ -179,7 +179,7 @@
 
   logoutBtn.addEventListener("click", async () => {
     try {
-      await api("/backend/auth.php?action=logout", { method: "POST", body: "{}" });
+      await api("/backend/session.php?action=logout", { method: "POST", body: "{}" });
     } catch {
       /* ignore */
     }
@@ -259,7 +259,7 @@
   (async () => {
     fillBrandSelect();
     try {
-      const me = await api("/backend/auth.php?action=me");
+      const me = await api("/backend/session.php?action=me");
       if (me.authenticated) {
         setAuthed(true);
         await loadProducts();
@@ -269,7 +269,7 @@
     } catch {
       setAuthed(false);
       loginError.hidden = false;
-      loginError.textContent = "Backend API unavailable. Confirm /backend/auth.php is deployed on Hostinger and returns JSON.";
+      loginError.textContent = "Backend API unavailable. Confirm /backend/session.php is deployed on Hostinger and returns JSON.";
     }
   })();
 })();
