@@ -15,7 +15,9 @@ function ovitec_normalize_product(array $input, array $vehicle, ?array $existing
   $brand = strtolower(trim((string) ($input['brand'] ?? ($existing['brand'] ?? ''))));
   $model = trim((string) ($input['model'] ?? ($existing['model'] ?? '')));
   $title = trim((string) ($input['title'] ?? ($existing['title'] ?? '')));
+  $titleAr = trim((string) ($input['titleAr'] ?? ($existing['titleAr'] ?? '')));
   $description = trim((string) ($input['description'] ?? ($existing['description'] ?? '')));
+  $descriptionAr = trim((string) ($input['descriptionAr'] ?? ($existing['descriptionAr'] ?? '')));
   $image = trim((string) ($input['image'] ?? ($existing['image'] ?? '')));
   $priceRaw = $input['price'] ?? ($existing['price'] ?? null);
   $price = is_numeric($priceRaw) ? round((float) $priceRaw, 2) : null;
@@ -30,11 +32,11 @@ function ovitec_normalize_product(array $input, array $vehicle, ?array $existing
   if ($model === '' || !in_array($model, $models, true)) {
     ovitec_json_response(['error' => 'Invalid model for brand'], 422);
   }
-  if ($title === '') {
-    ovitec_json_response(['error' => 'Title is required'], 422);
+  if ($title === '' && $titleAr === '') {
+    ovitec_json_response(['error' => 'Title is required (English or Arabic)'], 422);
   }
-  if ($description === '') {
-    ovitec_json_response(['error' => 'Description is required'], 422);
+  if ($description === '' && $descriptionAr === '') {
+    ovitec_json_response(['error' => 'Description is required (English or Arabic)'], 422);
   }
   if ($price === null || $price < 0) {
     ovitec_json_response(['error' => 'Valid price is required'], 422);
@@ -47,7 +49,9 @@ function ovitec_normalize_product(array $input, array $vehicle, ?array $existing
     'id' => $existing['id'] ?? ovitec_uuid(),
     'category' => $category,
     'title' => $title,
+    'titleAr' => $titleAr,
     'description' => $description,
+    'descriptionAr' => $descriptionAr,
     'price' => $price,
     'image' => $image,
     'brand' => $brand,

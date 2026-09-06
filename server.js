@@ -150,15 +150,17 @@ function normalizeProduct(input, existing = null) {
   const brand = String(input.brand ?? existing?.brand ?? "").toLowerCase().trim();
   const model = String(input.model ?? existing?.model ?? "").trim();
   const title = String(input.title ?? existing?.title ?? "").trim();
+  const titleAr = String(input.titleAr ?? existing?.titleAr ?? "").trim();
   const description = String(input.description ?? existing?.description ?? "").trim();
+  const descriptionAr = String(input.descriptionAr ?? existing?.descriptionAr ?? "").trim();
   const image = String(input.image ?? existing?.image ?? "").trim();
   const price = Number(input.price ?? existing?.price);
 
   if (!vehicleData.categories.includes(category)) throw Object.assign(new Error("Invalid category"), { status: 422 });
   if (!vehicleData.models[brand]) throw Object.assign(new Error("Invalid brand"), { status: 422 });
   if (!model || !vehicleData.models[brand].includes(model)) throw Object.assign(new Error("Invalid model for brand"), { status: 422 });
-  if (!title) throw Object.assign(new Error("Title is required"), { status: 422 });
-  if (!description) throw Object.assign(new Error("Description is required"), { status: 422 });
+  if (!title && !titleAr) throw Object.assign(new Error("Title is required (English or Arabic)"), { status: 422 });
+  if (!description && !descriptionAr) throw Object.assign(new Error("Description is required (English or Arabic)"), { status: 422 });
   if (!Number.isFinite(price) || price < 0) throw Object.assign(new Error("Valid price is required"), { status: 422 });
   if (!image) throw Object.assign(new Error("Image is required"), { status: 422 });
 
@@ -166,7 +168,9 @@ function normalizeProduct(input, existing = null) {
     id: existing?.id || uuid(),
     category,
     title,
+    titleAr,
     description,
+    descriptionAr,
     price: Math.round(price * 100) / 100,
     image,
     brand,

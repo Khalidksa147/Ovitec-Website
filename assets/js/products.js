@@ -92,6 +92,20 @@
     return `${labels.sar} ${value.toLocaleString(isArabic ? "ar-SA" : "en-US", { maximumFractionDigits: 0 })}`;
   };
 
+  const escapeHtml = (value) =>
+    String(value || "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;");
+
+  const localized = (product, enKey, arKey) => {
+    const en = String(product[enKey] || "").trim();
+    const ar = String(product[arKey] || "").trim();
+    if (isArabic) return ar || en;
+    return en || ar;
+  };
+
   const setStatus = (text, isError = false) => {
     if (!status) return;
     status.hidden = !text;
@@ -109,19 +123,21 @@
     products.forEach((product) => {
       const brandName = vehicle.getBrandName(product.brand);
       const catLabel = getCategoryLabel(product.category);
+      const title = localized(product, "title", "titleAr");
+      const description = localized(product, "description", "descriptionAr");
       const enquireUrl = `${contactBase}?brand=${encodeURIComponent(product.brand || "")}&model=${encodeURIComponent(product.model || "")}`;
       const card = document.createElement("article");
       card.className = "product-card";
       card.innerHTML = `
         <div class="product-card__media">
-          <img src="${product.image}" alt="" loading="lazy" decoding="async">
+          <img src="${escapeHtml(product.image)}" alt="" loading="lazy" decoding="async">
         </div>
         <div class="product-card__body">
-          <p class="product-card__meta">${catLabel} · ${brandName} ${product.model || ""}</p>
-          <h3>${product.title || ""}</h3>
-          <p class="product-card__desc">${product.description || ""}</p>
+          <p class="product-card__meta">${escapeHtml(catLabel)} · ${escapeHtml(brandName)} ${escapeHtml(product.model || "")}</p>
+          <h3>${escapeHtml(title)}</h3>
+          <p class="product-card__desc">${escapeHtml(description)}</p>
           <div class="product-card__footer">
-            <strong class="product-card__price">${formatPrice(product.price)}</strong>
+            <strong class="product-card__price">${escapeHtml(formatPrice(product.price))}</strong>
             <a class="btn btn--red" href="${enquireUrl}"><span>${labels.enquire}</span></a>
           </div>
         </div>

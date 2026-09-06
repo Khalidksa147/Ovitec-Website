@@ -14,7 +14,9 @@
   const productId = document.getElementById("product-id");
   const productCategory = document.getElementById("product-category");
   const productTitle = document.getElementById("product-title");
+  const productTitleAr = document.getElementById("product-title-ar");
   const productDescription = document.getElementById("product-description");
+  const productDescriptionAr = document.getElementById("product-description-ar");
   const productPrice = document.getElementById("product-price");
   const productBrand = document.getElementById("product-brand");
   const productModel = document.getElementById("product-model");
@@ -121,7 +123,7 @@
       const tr = document.createElement("tr");
       tr.innerHTML = `
         <td><img src="${product.image}" alt=""></td>
-        <td><strong>${product.title || ""}</strong></td>
+        <td><strong>${product.title || product.titleAr || ""}</strong>${product.titleAr ? `<div class="admin-table__ar" dir="rtl" lang="ar">${product.titleAr}</div>` : ""}</td>
         <td>${vehicle.getCategoryLabel(product.category)}</td>
         <td>${vehicle.getBrandName(product.brand)} ${product.model || ""}</td>
         <td>SAR ${Number(product.price || 0).toLocaleString("en-US")}</td>
@@ -148,7 +150,9 @@
     productId.value = product.id;
     productCategory.value = product.category;
     productTitle.value = product.title || "";
+    productTitleAr.value = product.titleAr || "";
     productDescription.value = product.description || "";
+    productDescriptionAr.value = product.descriptionAr || "";
     productPrice.value = product.price ?? "";
     productBrand.value = product.brand || "";
     syncModels(product.model || "");
@@ -216,12 +220,22 @@
       id: productId.value || undefined,
       category: productCategory.value,
       title: productTitle.value.trim(),
+      titleAr: productTitleAr.value.trim(),
       description: productDescription.value.trim(),
+      descriptionAr: productDescriptionAr.value.trim(),
       price: Number(productPrice.value),
       brand: productBrand.value,
       model: productModel.value,
       image: productImage.value.trim()
     };
+    if (!payload.title && !payload.titleAr) {
+      showFormError("Add an English or Arabic title");
+      return;
+    }
+    if (!payload.description && !payload.descriptionAr) {
+      showFormError("Add an English or Arabic description");
+      return;
+    }
     try {
       if (payload.id) {
         await api("/backend/products.php", { method: "PUT", body: JSON.stringify(payload) });

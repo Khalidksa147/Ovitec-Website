@@ -3228,6 +3228,18 @@ html[dir="rtl"] .am-hero h1 {
   gap: 14px;
 }
 
+.admin-table__ar {
+  margin-top: 4px;
+  color: var(--gray);
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.admin-form input[dir="rtl"],
+.admin-form textarea[dir="rtl"] {
+  text-align: right;
+}
+
 .admin-actions {
   display: flex;
   flex-wrap: wrap;
