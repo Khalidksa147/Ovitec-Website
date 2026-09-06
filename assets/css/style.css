@@ -2898,6 +2898,31 @@ html[dir="rtl"] .am-hero h1 {
   background: var(--offwhite);
 }
 
+.products-intro .brand-crumb {
+  margin-bottom: 18px;
+}
+
+.am-brands-collection {
+  padding-top: 36px;
+  background: var(--white);
+}
+
+.am-brands-all {
+  margin-top: 28px;
+  text-align: center;
+}
+
+.am-brands-all a {
+  color: var(--red);
+  font-weight: 600;
+  font-size: 14px;
+  text-decoration: none;
+}
+
+.am-brands-all a:hover {
+  text-decoration: underline;
+}
+
 .products-intro h1 {
   font-family: var(--font-display);
   font-size: clamp(2rem, 4vw, 3rem);

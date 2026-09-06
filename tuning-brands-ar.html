@@ -3,19 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>المنتجات | أوفيتك لقطع السيارات الفاخرة</title>
-  <meta name="description" content="تصفّح قطع ما بعد البيع وقطع التعديل لـ Bentley وRolls-Royce وAston Martin وFerrari وLamborghini وMaserati.">
-  <link rel="canonical" href="https://www.oviteccarparts.com/ar/products">
-  <link rel="alternate" hreflang="en" href="https://www.oviteccarparts.com/products">
-  <link rel="alternate" hreflang="ar" href="https://www.oviteccarparts.com/ar/products">
+  <title>ماركات التعديل | أوفيتك لقطع السيارات الفاخرة</title>
+  <meta name="description" content="اختر الماركة لتصفّح قطع التعديل لـ Bentley وRolls-Royce وAston Martin وFerrari وLamborghini وMaserati.">
+  <link rel="canonical" href="https://www.oviteccarparts.com/ar/tuning-brands">
+  <link rel="alternate" hreflang="en" href="https://www.oviteccarparts.com/tuning-brands">
+  <link rel="alternate" hreflang="ar" href="https://www.oviteccarparts.com/ar/tuning-brands">
   <link rel="alternate" hreflang="x-default" href="https://www.oviteccarparts.com/">
   <meta name="robots" content="index, follow">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Ovitec Luxury Car Parts">
   <meta property="og:locale" content="ar_SA">
-  <meta property="og:url" content="https://www.oviteccarparts.com/ar/products">
-  <meta property="og:title" content="المنتجات | أوفيتك لقطع السيارات الفاخرة">
-  <meta property="og:description" content="تصفّح قطع ما بعد البيع وقطع التعديل للسيارات الفاخرة وعالية الأداء.">
+  <meta property="og:url" content="https://www.oviteccarparts.com/ar/tuning-brands">
+  <meta property="og:title" content="ماركات التعديل | أوفيتك لقطع السيارات الفاخرة">
+  <meta property="og:description" content="اختر الماركة لتصفّح قطع التعديل للسيارات الفاخرة وعالية الأداء.">
   <meta property="og:image" content="https://www.oviteccarparts.com/Home%20page/Aftermarket%20parts%20hero%20img.jpg">
   <link rel="icon" href="/Brand Logos/Ovitec Logo.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://api.fontshare.com">
@@ -23,7 +23,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@400,500,600,700,800&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/assets/css/style.css?v=37">
+  <link rel="stylesheet" href="/assets/css/style.css?v=38">
   <link rel="stylesheet" href="/assets/css/card-nav.css?v=13">
 </head>
 <body data-nav="react">
@@ -58,7 +58,7 @@
           </button>
           <ul class="lang-switch__menu" id="lang-switch-menu" role="listbox" aria-labelledby="lang-switch-btn" hidden>
             <li>
-              <a class="lang-switch__option" role="option" data-lang="en" href="/products" aria-selected="false">
+              <a class="lang-switch__option" role="option" data-lang="en" href="/tuning-brands" aria-selected="false">
                 <span class="lang-switch__flag" aria-hidden="true">
                   <img src="/assets/flags/united-kingdom-flag.png" alt="" width="22" height="22" decoding="async" loading="lazy">
                 </span>
@@ -67,7 +67,7 @@
               </a>
             </li>
             <li>
-              <a class="lang-switch__option" role="option" data-lang="ar" href="/ar/products" aria-selected="true">
+              <a class="lang-switch__option" role="option" data-lang="ar" href="/ar/tuning-brands" aria-selected="true">
                 <span class="lang-switch__flag" aria-hidden="true">
                   <img src="/assets/flags/saudi-arabia-flag.png" alt="" width="22" height="22" decoding="async" loading="lazy">
                 </span>
@@ -91,7 +91,7 @@
             <li><a href="/ar/about">من نحن</a></li>
             <li><a href="/ar#collection">قطع أصلية</a></li>
             <li><a href="/ar/aftermarket">قطع ما بعد البيع</a></li>
-            <li><a href="/ar/tuning-brands">قطع تعديلية</a></li>
+            <li><a class="is-active" href="/ar/tuning-brands">قطع تعديلية</a></li>
             <li><a href="/ar/contact">تواصل معنا</a></li>
           </ul>
         </nav>
@@ -104,7 +104,7 @@
     </div>
   </header>
 
-  <main id="main" class="products-page">
+  <main id="main" class="products-page tuning-brands-page">
     <div class="nav-react card-nav-container">
       <nav class="card-nav" aria-label="القائمة الرئيسية">
         <div class="card-nav-top">
@@ -195,34 +195,86 @@
       </nav>
     </div>
 
-    <section class="products-intro" aria-labelledby="products-title">
+    <section class="products-intro" aria-labelledby="tuning-brands-title">
       <div class="container">
-        <p class="am-kicker">الكتالوج</p>
-        <h1 id="products-title">قطع ما بعد البيع والتعديل<span class="am-dot">.</span></h1>
-        <p>تصفّح القطع المطابقة للمركبة. صفِّ حسب الفئة والعلامة والطراز، ثم استفسر عن التوفر والشحن.</p>
+        <nav class="brand-crumb" aria-label="مسار التنقل">
+          <a href="/ar">الرئيسية</a>
+          <span aria-hidden="true">/</span>
+          <span>اختر الماركة</span>
+        </nav>
+        <p class="am-kicker">كتالوج التعديل</p>
+        <h1 id="tuning-brands-title">اختر الماركة<span class="am-dot">.</span></h1>
+        <p>اختر العلامة التجارية لتصفّح قطع التعديل لتلك المركبة — نفس الماركات الفاخرة في مجموعة القطع الأصلية.</p>
       </div>
     </section>
 
-    <section class="products-listing" aria-label="فلاتر المنتجات والنتائج">
+    <section class="collection am-brands-collection" aria-label="ماركات التعديل">
       <div class="container">
-        <form class="products-filters" id="products-filters">
-          <label>
-            <span>الفئة</span>
-            <select id="filter-category" name="category"></select>
-          </label>
-          <label>
-            <span>العلامة</span>
-            <select id="filter-brand" name="brand"></select>
-          </label>
-          <label>
-            <span>الطراز</span>
-            <select id="filter-model" name="model" disabled></select>
-          </label>
-          <button class="btn btn--ghost" type="button" id="filter-clear"><span>مسح الفلاتر</span></button>
-        </form>
-        <p class="products-status" id="products-status" hidden></p>
-        <p class="products-empty" id="products-empty" hidden>لا توجد منتجات مطابقة للفلاتر المحددة.</p>
-        <div class="products-grid" id="products-grid"></div>
+        <div class="collection__grid">
+          <article class="car-card">
+            <div class="car-card__media">
+              <img src="/Car Collection/Bentely/Bentely img.avif" alt="Bentley" decoding="async" loading="lazy">
+            </div>
+            <div class="car-card__bar">
+              <h3>Bentley</h3>
+              <span class="car-card__cta">عرض القطع <span aria-hidden="true">↗</span></span>
+            </div>
+            <a class="car-card__cover" href="/ar/products?category=tuning&amp;brand=bentley"><span class="sr-only">قطع التعديل لـ Bentley</span></a>
+          </article>
+          <article class="car-card">
+            <div class="car-card__media">
+              <img src="/Car Collection/Rolls Royce/Rolls Royce img.avif" alt="Rolls-Royce" decoding="async" loading="lazy">
+            </div>
+            <div class="car-card__bar">
+              <h3>Rolls Royce</h3>
+              <span class="car-card__cta">عرض القطع <span aria-hidden="true">↗</span></span>
+            </div>
+            <a class="car-card__cover" href="/ar/products?category=tuning&amp;brand=rolls-royce"><span class="sr-only">قطع التعديل لـ Rolls-Royce</span></a>
+          </article>
+          <article class="car-card">
+            <div class="car-card__media">
+              <img src="/Car Collection/Aston Martin/Aston martin img.jpg" alt="Aston Martin" decoding="async" loading="lazy">
+            </div>
+            <div class="car-card__bar">
+              <h3>Aston Martin</h3>
+              <span class="car-card__cta">عرض القطع <span aria-hidden="true">↗</span></span>
+            </div>
+            <a class="car-card__cover" href="/ar/products?category=tuning&amp;brand=aston-martin"><span class="sr-only">قطع التعديل لـ Aston Martin</span></a>
+          </article>
+          <article class="car-card">
+            <div class="car-card__media">
+              <img src="/Car Collection/Ferrari/Ferrari img.jpg" alt="Ferrari" decoding="async" loading="lazy">
+            </div>
+            <div class="car-card__bar">
+              <h3>Ferrari</h3>
+              <span class="car-card__cta">عرض القطع <span aria-hidden="true">↗</span></span>
+            </div>
+            <a class="car-card__cover" href="/ar/products?category=tuning&amp;brand=ferrari"><span class="sr-only">قطع التعديل لـ Ferrari</span></a>
+          </article>
+          <article class="car-card">
+            <div class="car-card__media">
+              <img src="/Car Collection/Lamborghini/Lamborghini img.webp" alt="Lamborghini" decoding="async" loading="lazy">
+            </div>
+            <div class="car-card__bar">
+              <h3>Lamborghini</h3>
+              <span class="car-card__cta">عرض القطع <span aria-hidden="true">↗</span></span>
+            </div>
+            <a class="car-card__cover" href="/ar/products?category=tuning&amp;brand=lamborghini"><span class="sr-only">قطع التعديل لـ Lamborghini</span></a>
+          </article>
+          <article class="car-card">
+            <div class="car-card__media">
+              <img src="/Car Collection/Maserati/Maserati img.avif" alt="Maserati" decoding="async" loading="lazy">
+            </div>
+            <div class="car-card__bar">
+              <h3>Maserati</h3>
+              <span class="car-card__cta">عرض القطع <span aria-hidden="true">↗</span></span>
+            </div>
+            <a class="car-card__cover" href="/ar/products?category=tuning&amp;brand=maserati"><span class="sr-only">قطع التعديل لـ Maserati</span></a>
+          </article>
+        </div>
+        <p class="am-brands-all">
+          <a href="/ar/products?category=tuning">تصفّح كل منتجات التعديل <span aria-hidden="true">←</span></a>
+        </p>
       </div>
     </section>
   </main>
@@ -287,7 +339,5 @@
   <script src="/assets/js/card-nav.js"></script>
   <script src="/assets/js/split-text.js?v=14"></script>
   <script src="/assets/js/main.js?v=4"></script>
-  <script src="/assets/js/vehicle-data.js?v=1"></script>
-  <script src="/assets/js/products.js?v=1"></script>
 </body>
 </html>
