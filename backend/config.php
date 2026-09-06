@@ -1,62 +1,84 @@
 <?php
 declare(strict_types=1);
 
+// Surface real errors as JSON instead of a blank Hostinger 500 page.
+ini_set('display_errors', '0');
+error_reporting(E_ALL);
+
+function ovitec_fail(Throwable $e): void {
+  if (!headers_sent()) {
+    http_response_code(500);
+    header('Content-Type: application/json; charset=utf-8');
+    header('Cache-Control: no-store');
+  }
+  echo json_encode([
+    'error' => 'Server error',
+    'detail' => $e->getMessage(),
+    'file' => basename($e->getFile()),
+    'line' => $e->getLine(),
+  ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+  exit;
+}
+
+set_exception_handler('ovitec_fail');
+
+register_shutdown_function(static function (): void {
+  $err = error_get_last();
+  if ($err === null) {
+    return;
+  }
+  $fatal = [E_ERROR, E_PARSE, E_CORE_ERROR, E_COMPILE_ERROR, E_USER_ERROR];
+  if (!in_array($err['type'], $fatal, true)) {
+    return;
+  }
+  if (!headers_sent()) {
+    http_response_code(500);
+    header('Content-Type: application/json; charset=utf-8');
+  }
+  echo json_encode([
+    'error' => 'Server error',
+    'detail' => $err['message'],
+    'file' => basename($err['file'] ?? ''),
+    'line' => $err['line'] ?? 0,
+  ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+});
+
 const OVITEC_ROOT = dirname(__DIR__);
 const UPLOAD_DIR = OVITEC_ROOT . '/uploads/products';
 const UPLOAD_URL_PREFIX = '/uploads/products';
-
-// Change this before going live. Optional override: OVITEC_ADMIN_PASSWORD env var.
 const ADMIN_PASSWORD = 'OvitecAdmin2026';
 
-function ovitec_is_https(): bool {
-  if (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') {
-    return true;
-  }
-  $forwarded = strtolower((string) ($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? ''));
-  return $forwarded === 'https'
-    || (!empty($_SERVER['SERVER_PORT']) && (string) $_SERVER['SERVER_PORT'] === '443');
-}
-
-/**
- * Start PHP session without fatalling on Hostinger shared hosts.
- * Never writes to $_SESSION before session_start().
- */
 function ovitec_bootstrap_session(): void {
-  if (session_status() === PHP_SESSION_ACTIVE) {
-    return;
-  }
-  if (session_status() === PHP_SESSION_DISABLED) {
+  if (session_status() === PHP_SESSION_ACTIVE || session_status() === PHP_SESSION_DISABLED) {
     return;
   }
 
-  $sessionDir = OVITEC_ROOT . DIRECTORY_SEPARATOR . 'data' . DIRECTORY_SEPARATOR . 'sessions';
-  if (!is_dir($sessionDir)) {
-    @mkdir($sessionDir, 0755, true);
+  $dir = OVITEC_ROOT . '/data/sessions';
+  if (!is_dir($dir)) {
+    @mkdir($dir, 0755, true);
   }
-  if (is_dir($sessionDir) && is_writable($sessionDir)) {
-    @session_save_path($sessionDir);
+  if (is_dir($dir) && is_writable($dir)) {
+    session_save_path($dir);
   }
 
-  $secure = ovitec_is_https();
-  @session_set_cookie_params([
+  $https = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
+    || (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && strtolower((string) $_SERVER['HTTP_X_FORWARDED_PROTO']) === 'https');
+
+  session_name('OVITECADMIN');
+  session_set_cookie_params([
     'lifetime' => 0,
     'path' => '/',
-    'secure' => $secure,
+    'secure' => $https,
     'httponly' => true,
     'samesite' => 'Lax',
   ]);
 
-  try {
-    @session_start();
-  } catch (Throwable $e) {
-    error_log('Ovitec session_start failed: ' . $e->getMessage());
+  if (!session_start()) {
+    throw new RuntimeException('session_start() returned false');
   }
 }
 
 function ovitec_json_response($data, int $status = 200): void {
-  while (ob_get_level() > 0) {
-    @ob_end_clean();
-  }
   if (!headers_sent()) {
     http_response_code($status);
     header('Content-Type: application/json; charset=utf-8');
@@ -66,11 +88,6 @@ function ovitec_json_response($data, int $status = 200): void {
   exit;
 }
 
-set_exception_handler(static function (Throwable $e): void {
-  error_log('Ovitec API exception: ' . $e->getMessage() . ' @ ' . $e->getFile() . ':' . $e->getLine());
-  ovitec_json_response(['error' => 'Server error'], 500);
-});
-
 ovitec_bootstrap_session();
 
 function ovitec_products_file(): string {
@@ -78,46 +95,30 @@ function ovitec_products_file(): string {
   if ($resolved !== null) {
     return $resolved;
   }
-
   $env = getenv('OVITEC_DATA_DIR');
-  if (is_string($env) && $env !== '') {
-    $resolved = rtrim($env, '/\\') . DIRECTORY_SEPARATOR . 'products.json';
-  } else {
-    $resolved = OVITEC_ROOT . DIRECTORY_SEPARATOR . 'data' . DIRECTORY_SEPARATOR . 'products.local.json';
-  }
+  $resolved = (is_string($env) && $env !== '')
+    ? rtrim($env, "/\\") . '/products.json'
+    : OVITEC_ROOT . '/data/products.local.json';
 
-  ovitec_migrate_products_file($resolved);
-  return $resolved;
-}
-
-function ovitec_migrate_products_file(string $target): void {
-  if (is_file($target)) {
-    return;
-  }
-  $sources = [
-    OVITEC_ROOT . DIRECTORY_SEPARATOR . 'data' . DIRECTORY_SEPARATOR . 'products.json',
-    OVITEC_ROOT . DIRECTORY_SEPARATOR . 'data' . DIRECTORY_SEPARATOR . 'products.example.json',
-  ];
-  foreach ($sources as $source) {
-    if ($source === $target || !is_file($source)) {
-      continue;
-    }
-    $dir = dirname($target);
+  if (!is_file($resolved)) {
+    $example = OVITEC_ROOT . '/data/products.example.json';
+    $legacy = OVITEC_ROOT . '/data/products.json';
+    $dir = dirname($resolved);
     if (!is_dir($dir)) {
       @mkdir($dir, 0755, true);
     }
-    if (@copy($source, $target)) {
-      return;
+    if (is_file($legacy)) {
+      @copy($legacy, $resolved);
+    } elseif (is_file($example)) {
+      @copy($example, $resolved);
     }
   }
+  return $resolved;
 }
 
 function ovitec_admin_password(): string {
   $env = getenv('OVITEC_ADMIN_PASSWORD');
-  if (is_string($env) && $env !== '') {
-    return $env;
-  }
-  return ADMIN_PASSWORD;
+  return (is_string($env) && $env !== '') ? $env : ADMIN_PASSWORD;
 }
 
 function ovitec_verify_password(string $password): bool {
@@ -148,11 +149,11 @@ function ovitec_vehicle_data(): array {
   if ($data === null) {
     $path = __DIR__ . '/vehicle-data.php';
     if (!is_file($path)) {
-      ovitec_json_response(['error' => 'Vehicle data missing'], 500);
+      throw new RuntimeException('vehicle-data.php missing');
     }
     $loaded = require $path;
     if (!is_array($loaded)) {
-      ovitec_json_response(['error' => 'Invalid vehicle data'], 500);
+      throw new RuntimeException('vehicle-data.php invalid');
     }
     $data = $loaded;
   }
@@ -173,14 +174,14 @@ function ovitec_save_products(array $products): void {
   $file = ovitec_products_file();
   $dir = dirname($file);
   if (!is_dir($dir) && !@mkdir($dir, 0755, true) && !is_dir($dir)) {
-    ovitec_json_response(['error' => 'Failed to create data directory'], 500);
+    throw new RuntimeException('Cannot create data directory');
   }
   $json = json_encode(array_values($products), JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
   if ($json === false) {
-    ovitec_json_response(['error' => 'Failed to encode products'], 500);
+    throw new RuntimeException('Failed to encode products');
   }
   if (@file_put_contents($file, $json . "\n", LOCK_EX) === false) {
-    ovitec_json_response(['error' => 'Failed to save products'], 500);
+    throw new RuntimeException('Failed to write products file');
   }
 }
 
