@@ -4,7 +4,6 @@
  * Visit: /backend/ping.php
  */
 header('Content-Type: application/json; charset=utf-8');
-ini_set('display_errors', '0');
 
 $out = [
   'ok' => true,
@@ -21,20 +20,9 @@ try {
     session_start();
   }
   $out['session'] = 'ok';
-  $out['authenticated'] = !empty($_SESSION['ovitec_admin']);
 } catch (Throwable $e) {
   $out['session'] = 'fail';
   $out['session_error'] = $e->getMessage();
-}
-
-try {
-  require __DIR__ . '/config.php';
-  $out['config_load'] = 'ok';
-  $out['authenticated'] = ovitec_is_admin();
-} catch (Throwable $e) {
-  $out['config_load'] = 'fail';
-  $out['config_error'] = $e->getMessage();
-  $out['config_line'] = $e->getLine();
 }
 
 echo json_encode($out, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);

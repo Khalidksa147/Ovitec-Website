@@ -1,75 +1,22 @@
 <?php
 declare(strict_types=1);
 
-// Surface real errors as JSON instead of a blank Hostinger 500 page.
-ini_set('display_errors', '0');
-error_reporting(E_ALL);
-
-function ovitec_fail(Throwable $e): void {
-  if (!headers_sent()) {
-    http_response_code(500);
-    header('Content-Type: application/json; charset=utf-8');
-    header('Cache-Control: no-store');
-  }
-  echo json_encode([
-    'error' => 'Server error',
-    'detail' => $e->getMessage(),
-    'file' => basename($e->getFile()),
-    'line' => $e->getLine(),
-  ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
-  exit;
-}
-
-set_exception_handler('ovitec_fail');
-
-register_shutdown_function(static function (): void {
-  $err = error_get_last();
-  if ($err === null) {
-    return;
-  }
-  $fatal = [E_ERROR, E_PARSE, E_CORE_ERROR, E_COMPILE_ERROR, E_USER_ERROR];
-  if (!in_array($err['type'], $fatal, true)) {
-    return;
-  }
-  if (!headers_sent()) {
-    http_response_code(500);
-    header('Content-Type: application/json; charset=utf-8');
-  }
-  echo json_encode([
-    'error' => 'Server error',
-    'detail' => $err['message'],
-    'file' => basename($err['file'] ?? ''),
-    'line' => $err['line'] ?? 0,
-  ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
-});
-
 const OVITEC_ROOT = dirname(__DIR__);
 const UPLOAD_DIR = OVITEC_ROOT . '/uploads/products';
 const UPLOAD_URL_PREFIX = '/uploads/products';
 const ADMIN_PASSWORD = 'OvitecAdmin2026';
 
-function ovitec_bootstrap_session(): void {
-  if (session_status() === PHP_SESSION_ACTIVE || session_status() === PHP_SESSION_DISABLED) {
-    return;
-  }
-
-  // Keep sessions on Hostinger's default path (custom save_path caused empty 500s).
-  if (!@session_start()) {
-    throw new RuntimeException('session_start() returned false');
-  }
+if (session_status() === PHP_SESSION_NONE) {
+  session_start();
 }
 
 function ovitec_json_response($data, int $status = 200): void {
-  if (!headers_sent()) {
-    http_response_code($status);
-    header('Content-Type: application/json; charset=utf-8');
-    header('Cache-Control: no-store');
-  }
+  http_response_code($status);
+  header('Content-Type: application/json; charset=utf-8');
+  header('Cache-Control: no-store');
   echo json_encode($data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
   exit;
 }
-
-ovitec_bootstrap_session();
 
 function ovitec_products_file(): string {
   static $resolved = null;

@@ -33,5 +33,10 @@ try {
 
   ovitec_json_response(['error' => 'Not found'], 404);
 } catch (Throwable $e) {
-  ovitec_fail($e);
+  http_response_code(500);
+  header('Content-Type: application/json; charset=utf-8');
+  echo json_encode([
+    'error' => 'Server error',
+    'detail' => $e->getMessage(),
+  ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
 }
