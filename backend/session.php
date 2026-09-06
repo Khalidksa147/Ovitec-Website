@@ -1,42 +1,52 @@
 <?php
-declare(strict_types=1);
+/**
+ * Standalone admin session API (no shared config require).
+ */
+header('Content-Type: application/json; charset=utf-8');
+header('Cache-Control: no-store');
 
-require __DIR__ . '/config.php';
+if (session_status() === PHP_SESSION_NONE) {
+  session_start();
+}
 
 $method = $_SERVER['REQUEST_METHOD'] ?? 'GET';
 $action = isset($_GET['action']) ? (string) $_GET['action'] : '';
-
-try {
-  if ($method === 'GET' && ($action === 'me' || $action === '')) {
-    ovitec_json_response([
-      'authenticated' => ovitec_is_admin(),
-    ]);
-  }
-
-  if ($method === 'POST' && $action === 'login') {
-    $body = ovitec_read_json_body();
-    $password = isset($body['password']) ? (string) $body['password'] : '';
-    if ($password === '' || !ovitec_verify_password($password)) {
-      ovitec_json_response(['error' => 'Invalid password'], 401);
-    }
-    $_SESSION['ovitec_admin'] = true;
-    ovitec_json_response(['ok' => true, 'authenticated' => true]);
-  }
-
-  if ($method === 'POST' && $action === 'logout') {
-    $_SESSION = [];
-    if (session_status() === PHP_SESSION_ACTIVE) {
-      @session_destroy();
-    }
-    ovitec_json_response(['ok' => true, 'authenticated' => false]);
-  }
-
-  ovitec_json_response(['error' => 'Not found'], 404);
-} catch (Throwable $e) {
-  http_response_code(500);
-  header('Content-Type: application/json; charset=utf-8');
-  echo json_encode([
-    'error' => 'Server error',
-    'detail' => $e->getMessage(),
-  ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+$password = 'OvitecAdmin2026';
+$env = getenv('OVITEC_ADMIN_PASSWORD');
+if (is_string($env) && $env !== '') {
+  $password = $env;
 }
+
+function ovitec_out($data, int $status = 200): void {
+  http_response_code($status);
+  echo json_encode($data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+  exit;
+}
+
+if ($method === 'GET' && ($action === 'me' || $action === '')) {
+  ovitec_out(['authenticated' => !empty($_SESSION['ovitec_admin'])]);
+}
+
+if ($method === 'POST' && $action === 'login') {
+  $raw = file_get_contents('php://input');
+  $body = json_decode($raw ?: '[]', true);
+  if (!is_array($body)) {
+    $body = [];
+  }
+  $given = isset($body['password']) ? (string) $body['password'] : '';
+  if ($given === '' || !hash_equals($password, $given)) {
+    ovitec_out(['error' => 'Invalid password'], 401);
+  }
+  $_SESSION['ovitec_admin'] = true;
+  ovitec_out(['ok' => true, 'authenticated' => true]);
+}
+
+if ($method === 'POST' && $action === 'logout') {
+  $_SESSION = [];
+  if (session_status() === PHP_SESSION_ACTIVE) {
+    session_destroy();
+  }
+  ovitec_out(['ok' => true, 'authenticated' => false]);
+}
+
+ovitec_out(['error' => 'Not found'], 404);
