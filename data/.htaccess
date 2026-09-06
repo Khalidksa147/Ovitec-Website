@@ -1,4 +1,4 @@
-# Block direct web access to live product data (served only via /api/products.php).
+# Block direct web access to live product data and PHP sessions.
 Require all denied
 
 # Demo seed only — used as a static fallback when the API is unavailable.

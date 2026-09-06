@@ -10,5 +10,6 @@ Thumbs.db
 # Live catalog + uploads — must not be overwritten by Hostinger Git deploys
 data/products.local.json
 data/products.json
+data/sessions/
 uploads/products/*
 !uploads/products/.gitkeep
