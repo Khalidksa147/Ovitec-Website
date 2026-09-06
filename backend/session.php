@@ -29,13 +29,22 @@ if ($method === 'GET' && ($action === 'me' || $action === '')) {
 
 if ($method === 'POST' && $action === 'login') {
   $raw = file_get_contents('php://input');
-  $body = json_decode($raw ?: '[]', true);
+  $body = json_decode(is_string($raw) ? $raw : '[]', true);
   if (!is_array($body)) {
     $body = [];
   }
-  $given = isset($body['password']) ? (string) $body['password'] : '';
+  $given = '';
+  if (isset($body['password'])) {
+    $given = (string) $body['password'];
+  } elseif (isset($_POST['password'])) {
+    $given = (string) $_POST['password'];
+  }
   if ($given === '' || !hash_equals($password, $given)) {
-    ovitec_out(['error' => 'Invalid password'], 401);
+    ovitec_out([
+      'error' => 'Invalid password',
+      'debug_got_len' => strlen($given),
+      'debug_raw_len' => is_string($raw) ? strlen($raw) : 0,
+    ], 401);
   }
   $_SESSION['ovitec_admin'] = true;
   ovitec_out(['ok' => true, 'authenticated' => true]);
