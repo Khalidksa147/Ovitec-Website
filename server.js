@@ -12,9 +12,32 @@ const { URL } = require("url");
 
 const PORT = Number(process.env.PORT || 8080);
 const ROOT = __dirname;
-const PRODUCTS_FILE = path.join(ROOT, "data", "products.json");
 const UPLOAD_DIR = path.join(ROOT, "uploads", "products");
 const ADMIN_PASSWORD = process.env.OVITEC_ADMIN_PASSWORD || "OvitecAdmin2026";
+
+function resolveProductsFile() {
+  const target = process.env.OVITEC_DATA_DIR
+    ? path.join(process.env.OVITEC_DATA_DIR, "products.json")
+    : path.join(ROOT, "data", "products.local.json");
+
+  if (!fs.existsSync(target)) {
+    const sources = [
+      path.join(ROOT, "data", "products.json"),
+      path.join(ROOT, "data", "products.example.json")
+    ];
+    fs.mkdirSync(path.dirname(target), { recursive: true });
+    for (const source of sources) {
+      if (fs.existsSync(source)) {
+        fs.copyFileSync(source, target);
+        return target;
+      }
+    }
+    fs.writeFileSync(target, "[]\n", "utf8");
+  }
+  return target;
+}
+
+const PRODUCTS_FILE = resolveProductsFile();
 
 const vehicleData = {
   models: {

@@ -163,7 +163,7 @@
         const data = await res.json();
         products = Array.isArray(data.products) ? data.products : [];
       } catch {
-        const res = await fetch("/data/products.json", { cache: "no-store" });
+        const res = await fetch("/data/products.example.json", { cache: "no-store" });
         if (!res.ok) throw new Error("fallback");
         const all = await res.json();
         products = (Array.isArray(all) ? all : []).filter((product) => {

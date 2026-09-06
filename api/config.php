@@ -14,12 +14,54 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
 }
 
 const OVITEC_ROOT = dirname(__DIR__);
-const PRODUCTS_FILE = OVITEC_ROOT . '/data/products.json';
 const UPLOAD_DIR = OVITEC_ROOT . '/uploads/products';
 const UPLOAD_URL_PREFIX = '/uploads/products';
 
 // Change this before going live. Optional override: OVITEC_ADMIN_PASSWORD env var.
 const ADMIN_PASSWORD = 'OvitecAdmin2026';
+
+/**
+ * Live catalog file (gitignored). Not overwritten by GitHub → Hostinger deploys.
+ * Optional: OVITEC_DATA_DIR=/path/to/dir  → uses {dir}/products.json instead.
+ */
+function ovitec_products_file(): string {
+  static $resolved = null;
+  if ($resolved !== null) {
+    return $resolved;
+  }
+
+  $env = getenv('OVITEC_DATA_DIR');
+  if (is_string($env) && $env !== '') {
+    $resolved = rtrim($env, '/\\') . DIRECTORY_SEPARATOR . 'products.json';
+  } else {
+    $resolved = OVITEC_ROOT . DIRECTORY_SEPARATOR . 'data' . DIRECTORY_SEPARATOR . 'products.local.json';
+  }
+
+  ovitec_migrate_products_file($resolved);
+  return $resolved;
+}
+
+function ovitec_migrate_products_file(string $target): void {
+  if (is_file($target)) {
+    return;
+  }
+  $sources = [
+    OVITEC_ROOT . DIRECTORY_SEPARATOR . 'data' . DIRECTORY_SEPARATOR . 'products.json',
+    OVITEC_ROOT . DIRECTORY_SEPARATOR . 'data' . DIRECTORY_SEPARATOR . 'products.example.json',
+  ];
+  foreach ($sources as $source) {
+    if ($source === $target || !is_file($source)) {
+      continue;
+    }
+    $dir = dirname($target);
+    if (!is_dir($dir)) {
+      @mkdir($dir, 0755, true);
+    }
+    if (@copy($source, $target)) {
+      return;
+    }
+  }
+}
 
 function ovitec_admin_password(): string {
   $env = getenv('OVITEC_ADMIN_PASSWORD');
@@ -69,16 +111,18 @@ function ovitec_vehicle_data(): array {
 }
 
 function ovitec_load_products(): array {
-  if (!is_file(PRODUCTS_FILE)) {
+  $file = ovitec_products_file();
+  if (!is_file($file)) {
     return [];
   }
-  $raw = file_get_contents(PRODUCTS_FILE);
+  $raw = file_get_contents($file);
   $data = json_decode($raw ?: '[]', true);
   return is_array($data) ? $data : [];
 }
 
 function ovitec_save_products(array $products): void {
-  $dir = dirname(PRODUCTS_FILE);
+  $file = ovitec_products_file();
+  $dir = dirname($file);
   if (!is_dir($dir)) {
     mkdir($dir, 0755, true);
   }
@@ -86,7 +130,7 @@ function ovitec_save_products(array $products): void {
   if ($json === false) {
     ovitec_json_response(['error' => 'Failed to encode products'], 500);
   }
-  if (file_put_contents(PRODUCTS_FILE, $json . "\n", LOCK_EX) === false) {
+  if (file_put_contents($file, $json . "\n", LOCK_EX) === false) {
     ovitec_json_response(['error' => 'Failed to save products'], 500);
   }
 }
