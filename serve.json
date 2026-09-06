@@ -43,6 +43,10 @@
       "destination": "/aftermarket-ar.html"
     },
     {
+      "source": "/ar/products",
+      "destination": "/products-ar.html"
+    },
+    {
       "source": "/ar/404",
       "destination": "/404-ar.html"
     }
@@ -146,6 +150,16 @@
     {
       "source": "/aftermarket-ar.html",
       "destination": "/ar/aftermarket",
+      "type": 301
+    },
+    {
+      "source": "/products-ar",
+      "destination": "/ar/products",
+      "type": 301
+    },
+    {
+      "source": "/products-ar.html",
+      "destination": "/ar/products",
       "type": 301
     },
     {

@@ -1,0 +1,46 @@
+[
+  {
+    "id": "demo-001",
+    "category": "aftermarket",
+    "title": "Demo Ceramic Brake Pad Set",
+    "description": "High-performance ceramic brake pads matched for Ferrari 488 duty cycles. Quiet stop, low dust, and consistent bite.",
+    "price": 1850,
+    "image": "/Home page/Aftermarket parts img.webp",
+    "brand": "ferrari",
+    "model": "488",
+    "updatedAt": "2026-09-06T00:00:00Z"
+  },
+  {
+    "id": "demo-002",
+    "category": "aftermarket",
+    "title": "Demo OE-Quality Oil Filter Kit",
+    "description": "Service kit with oil filter and sealing rings for Lamborghini Urus scheduled maintenance intervals.",
+    "price": 420,
+    "image": "/Home page/Aftermarket parts img.webp",
+    "brand": "lamborghini",
+    "model": "Urus",
+    "updatedAt": "2026-09-06T00:00:00Z"
+  },
+  {
+    "id": "demo-003",
+    "category": "tuning",
+    "title": "Demo Performance Exhaust Tips",
+    "description": "Precision-fit polished exhaust tips for Bentley Continental GT, designed for a sharper tone without cabin drone.",
+    "price": 3200,
+    "image": "/Home page/Aftermarket parts img.webp",
+    "brand": "bentley",
+    "model": "Continental GT",
+    "updatedAt": "2026-09-06T00:00:00Z"
+  },
+  {
+    "id": "demo-004",
+    "category": "aftermarket",
+    "title": "Demo Front Control Arm Pair",
+    "description": "Bushing-complete front control arms for Aston Martin DB11, restoring steering precision and ride composure.",
+    "price": 2750,
+    "image": "/Home page/Aftermarket parts img.webp",
+    "brand": "aston-martin",
+    "model": "DB11",
+    "updatedAt": "2026-09-06T00:00:00Z"
+  }
+]
