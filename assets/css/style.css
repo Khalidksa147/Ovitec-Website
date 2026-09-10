@@ -1091,8 +1091,23 @@ html[dir="rtl"] .brands__track {
 }
 
 @media (max-width: 860px) {
-  .topbar__usps li:nth-child(3) {
+  .topbar {
+    font-size: 11px;
+  }
+
+  .topbar__usps {
+    flex: 1;
+    min-width: 0;
+    gap: 14px;
+  }
+
+  .topbar__usps li:first-child {
     display: none;
+  }
+
+  .topbar__usps svg {
+    width: 14px;
+    height: 14px;
   }
 
   .about__grid,
@@ -1143,8 +1158,20 @@ html[dir="rtl"] .brands__track {
     width: min(100% - 32px, var(--container));
   }
 
-  .topbar__usps li:nth-child(2) {
-    display: none;
+  .topbar {
+    font-size: 10.5px;
+  }
+
+  .topbar__inner {
+    gap: 10px;
+  }
+
+  .topbar__usps {
+    gap: 10px;
+  }
+
+  .topbar__usps li {
+    gap: 5px;
   }
 
   .header-main__inner {

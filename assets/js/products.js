@@ -130,7 +130,7 @@
       card.className = "product-card";
       card.innerHTML = `
         <div class="product-card__media">
-          <img src="${escapeHtml(product.image)}" alt="" loading="lazy" decoding="async">
+          <img src="${escapeHtml(product.image)}" alt="${escapeHtml(title)}" loading="lazy" decoding="async">
         </div>
         <div class="product-card__body">
           <p class="product-card__meta">${escapeHtml(catLabel)} · ${escapeHtml(brandName)} ${escapeHtml(product.model || "")}</p>

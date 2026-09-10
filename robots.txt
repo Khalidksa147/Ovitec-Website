@@ -1,4 +1,7 @@
 User-agent: *
 Allow: /
+Disallow: /admin
+Disallow: /admin.html
+Disallow: /backend/
 
 Sitemap: https://www.oviteccarparts.com/sitemap.xml

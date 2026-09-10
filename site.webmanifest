@@ -1,0 +1,18 @@
+{
+  "name": "Ovitec Luxury Car Parts",
+  "short_name": "Ovitec",
+  "description": "Premium OEM, aftermarket, and tuning parts for luxury vehicles. Worldwide shipping from Jeddah, KSA.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#db0812",
+  "lang": "en",
+  "icons": [
+    {
+      "src": "/Brand Logos/Ovitec Logo.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

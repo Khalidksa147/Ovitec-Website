@@ -43,6 +43,14 @@
       "destination": "/aftermarket-ar.html"
     },
     {
+      "source": "/ar/aftermarket-brands",
+      "destination": "/aftermarket-brands-ar.html"
+    },
+    {
+      "source": "/ar/tuning-brands",
+      "destination": "/tuning-brands-ar.html"
+    },
+    {
       "source": "/ar/products",
       "destination": "/products-ar.html"
     },
@@ -150,6 +158,26 @@
     {
       "source": "/aftermarket-ar.html",
       "destination": "/ar/aftermarket",
+      "type": 301
+    },
+    {
+      "source": "/aftermarket-brands-ar",
+      "destination": "/ar/aftermarket-brands",
+      "type": 301
+    },
+    {
+      "source": "/aftermarket-brands-ar.html",
+      "destination": "/ar/aftermarket-brands",
+      "type": 301
+    },
+    {
+      "source": "/tuning-brands-ar",
+      "destination": "/ar/tuning-brands",
+      "type": 301
+    },
+    {
+      "source": "/tuning-brands-ar.html",
+      "destination": "/ar/tuning-brands",
       "type": 301
     },
     {
