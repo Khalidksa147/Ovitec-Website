@@ -1,0 +1,7 @@
+.git
+.gitignore
+.cursor
+node_modules
+*.md
+agent-transcripts
+terminals
