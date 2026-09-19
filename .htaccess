@@ -1,4 +1,4 @@
-# Ovitec clean URLs + Arabic /ar prefix (Apache / Hostinger)
+# Ovitec clean URLs + Arabic /ar prefix (Apache / Hostinger / Dokploy)
 Options -MultiViews
 DirectoryIndex index.html
 
@@ -8,7 +8,7 @@ ErrorDocument 404 /404.html
   RewriteEngine On
   RewriteBase /
 
-  # Force HTTPS
+  # Force HTTPS (respect Traefik / reverse-proxy forwarded proto)
   RewriteCond %{HTTPS} !=on
   RewriteCond %{HTTP:X-Forwarded-Proto} !https
   RewriteCond %{HTTP_HOST} !^localhost [NC]
@@ -25,46 +25,62 @@ ErrorDocument 404 /404.html
   RewriteCond %{HTTP_HOST} ^oviteccarparts\.com$ [NC]
   RewriteRule ^ https://www.oviteccarparts.com%{REQUEST_URI} [L,R=301]
 
-  # Remove index.html
-  RewriteCond %{THE_REQUEST} /index\.html[\s?] [NC]
+  # Remove index.html (client requests only)
+  RewriteCond %{THE_REQUEST} \s/+index\.html[\s?] [NC]
   RewriteRule ^index\.html$ / [L,R=301]
 
-  # Old Arabic clean URLs → /ar/...
+  # Old Arabic clean URLs → /ar/... (client requests only)
+  RewriteCond %{THE_REQUEST} \s/+index-ar/?[\s?] [NC]
   RewriteRule ^index-ar/?$ /ar [L,R=301,QSA]
+  RewriteCond %{THE_REQUEST} \s/+about-ar/?[\s?] [NC]
   RewriteRule ^about-ar/?$ /ar/about [L,R=301,QSA]
+  RewriteCond %{THE_REQUEST} \s/+contact-ar/?[\s?] [NC]
   RewriteRule ^contact-ar/?$ /ar/contact [L,R=301,QSA]
+  RewriteCond %{THE_REQUEST} \s/+bentley-ar/?[\s?] [NC]
   RewriteRule ^bentley-ar/?$ /ar/bentley [L,R=301,QSA]
+  RewriteCond %{THE_REQUEST} \s/+rolls-royce-ar/?[\s?] [NC]
   RewriteRule ^rolls-royce-ar/?$ /ar/rolls-royce [L,R=301,QSA]
+  RewriteCond %{THE_REQUEST} \s/+aston-martin-ar/?[\s?] [NC]
   RewriteRule ^aston-martin-ar/?$ /ar/aston-martin [L,R=301,QSA]
+  RewriteCond %{THE_REQUEST} \s/+ferrari-ar/?[\s?] [NC]
   RewriteRule ^ferrari-ar/?$ /ar/ferrari [L,R=301,QSA]
+  RewriteCond %{THE_REQUEST} \s/+lamborghini-ar/?[\s?] [NC]
   RewriteRule ^lamborghini-ar/?$ /ar/lamborghini [L,R=301,QSA]
+  RewriteCond %{THE_REQUEST} \s/+maserati-ar/?[\s?] [NC]
   RewriteRule ^maserati-ar/?$ /ar/maserati [L,R=301,QSA]
+  RewriteCond %{THE_REQUEST} \s/+aftermarket-ar/?[\s?] [NC]
   RewriteRule ^aftermarket-ar/?$ /ar/aftermarket [L,R=301,QSA]
+  RewriteCond %{THE_REQUEST} \s/+aftermarket-brands-ar/?[\s?] [NC]
   RewriteRule ^aftermarket-brands-ar/?$ /ar/aftermarket-brands [L,R=301,QSA]
+  RewriteCond %{THE_REQUEST} \s/+tuning-brands-ar/?[\s?] [NC]
   RewriteRule ^tuning-brands-ar/?$ /ar/tuning-brands [L,R=301,QSA]
+  RewriteCond %{THE_REQUEST} \s/+products-ar/?[\s?] [NC]
   RewriteRule ^products-ar/?$ /ar/products [L,R=301,QSA]
+  RewriteCond %{THE_REQUEST} \s/+404-ar/?[\s?] [NC]
   RewriteRule ^404-ar/?$ /ar/404 [L,R=301,QSA]
 
-  # Old Arabic .html files → /ar/...
+  # Old Arabic .html files → /ar/... (client requests only — prevents /ar ↔ *-ar.html loop)
+  RewriteCond %{THE_REQUEST} \s/+index-ar\.html[\s?] [NC]
   RewriteRule ^index-ar\.html$ /ar [L,R=301,QSA]
+  RewriteCond %{THE_REQUEST} \s/+([a-z0-9-]+)-ar\.html[\s?] [NC]
   RewriteRule ^(about|contact|bentley|rolls-royce|aston-martin|ferrari|lamborghini|maserati|aftermarket|aftermarket-brands|tuning-brands|products|404)-ar\.html$ /ar/$1 [L,R=301,QSA]
 
-  # Redirect remaining English *.html to clean URLs
+  # Redirect remaining English *.html to clean URLs (client requests only)
   RewriteCond %{THE_REQUEST} \s/+(.+?)\.html[\s?] [NC]
   RewriteRule ^ /%1 [L,R=301,QSA]
 
-  # Serve Arabic /ar home
-  RewriteRule ^ar/?$ index-ar.html [L]
+  # Serve Arabic /ar home ([END] stops rewrite restart that caused redirect loops)
+  RewriteRule ^ar/?$ index-ar.html [END]
 
   # Serve Arabic nested pages: /ar/contact → contact-ar.html
-  RewriteRule ^ar/(about|contact|bentley|rolls-royce|aston-martin|ferrari|lamborghini|maserati|aftermarket|aftermarket-brands|tuning-brands|products|404)/?$ $1-ar.html [L]
+  RewriteRule ^ar/(about|contact|bentley|rolls-royce|aston-martin|ferrari|lamborghini|maserati|aftermarket|aftermarket-brands|tuning-brands|products|404)/?$ $1-ar.html [END]
 
   # Existing files/dirs
   RewriteCond %{REQUEST_FILENAME} -f [OR]
   RewriteCond %{REQUEST_FILENAME} -d
-  RewriteRule ^ - [L]
+  RewriteRule ^ - [END]
 
   # English clean URLs → .html
   RewriteCond %{REQUEST_FILENAME}.html -f
-  RewriteRule ^(.+?)/?$ $1.html [L]
+  RewriteRule ^(.+?)/?$ $1.html [END]
 </IfModule>
